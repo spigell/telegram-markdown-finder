@@ -1,0 +1,6 @@
+[submodule "src/gopkg.in/telegram-bot-api.v4"]
+	path = src/gopkg.in/telegram-bot-api.v4
+	url = https://gopkg.in/telegram-bot-api.v4
+[submodule "src/github.com/technoweenie/multipartstreamer"]
+	path = src/github.com/technoweenie/multipartstreamer
+	url = https://github.com/technoweenie/multipartstreamer
