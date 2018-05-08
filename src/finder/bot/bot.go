@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"os"
 	"strings"
-//	"fmt"
 	"flag"
 
 	"finder/parcer"
+	"finder/importer"
 )
 
 
@@ -31,6 +31,11 @@ func main() {
 	configuration := Config{}
 	err := decoder.Decode(&configuration)
 	if err != nil {
+		log.Panic(err)
+	}
+
+	files, error1 := importer.CollectAllPastes(configuration.PastePath)
+	if error1 != nil {
 		log.Panic(err)
 	}
 
@@ -56,7 +61,7 @@ func main() {
 		command := update.Message.Command()
 
 		if command == "" {
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Сам ты " + update.Message.Text)
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi! What do you want? Try /help")
 			msg.ReplyToMessageID = update.Message.MessageID
 
 			bot.Send(msg)
@@ -68,8 +73,12 @@ func main() {
 			args := strings.Fields(update.Message.Text)
 			firstArg := strings.Join(args[1:], " ")
 
-			targetFile := configuration.PastePath[command]
-			markdown, _ := parcer.ParseMarkdownFile(targetFile)
+			targetFile := files[command]
+			markdown, err := parcer.AbsorbMarkdownFile(targetFile)
+
+			if err != nil {
+				log.Print(err)
+			}
 
 			switch firstArg {
 			case "list":
@@ -85,7 +94,7 @@ func main() {
 			default: 
 				paste := firstArg
 
-				content := parcer.GetBlockByAnchors(markdown, paste)
+				content := parcer.GetBlockByAnchor(markdown, paste)
 				content_str := strings.Join(content, " ")
 
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, content_str)

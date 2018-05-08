@@ -2,7 +2,6 @@ package parcer
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"regexp"
 	"strings"
@@ -10,7 +9,7 @@ import (
 )
 
 
-func GetBlockByAnchors(markdown string, anchor string) []string {
+func GetBlockByAnchor(markdown string, anchor string) []string {
 	
 	block := make([]string, 0)
 	headFound := false
@@ -50,7 +49,7 @@ func GetBlockByAnchors(markdown string, anchor string) []string {
 func GetAllAnchors(markdown string) []string {
 	// Holds all the anchors in slice
 	
-	s := make([]string, 0)
+	pastesList := make([]string, 0)
 
 
 	scanner := bufio.NewScanner(strings.NewReader(markdown))
@@ -58,11 +57,23 @@ func GetAllAnchors(markdown string) []string {
 	for scanner.Scan() {
 
 		if startsWithHash(scanner.Text()) == true {
-			s = append(s, scanner.Text() + "\n")
+			pastesList = append(pastesList, scanner.Text() + "\n")
 		}
 	}
-	fmt.Println(s)
-	return s
+	if len(pastesList) == 0 {
+		log.Print("[ERROR] EMPTY LIST")
+		pastesList = append(pastesList, "Empty list, sir. Are you sure the paste file exists?")
+	}
+	return pastesList
+}
+
+func AbsorbMarkdownFile(fileName string) (string, error) {
+	bytes, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return "", err
+	}
+	s := string(bytes)
+	return s, nil
 }
 
 func targetAnchorFound(line string, anchor string) bool {
@@ -81,21 +92,3 @@ func targetAnchorFound(line string, anchor string) bool {
 func startsWithHash(line string) bool {
 	return strings.HasPrefix(line, "#")
 }
-
-func ParseMarkdownFile(fileName string) (string, error) {
-	file, err := fileToString(fileName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return file, nil
-}
-
-func fileToString(file string) (string, error) {
-	bytes, err := ioutil.ReadFile(file)
-	if err != nil {
-		return "", err
-	}
-	s := string(bytes)
-	return s, nil
-}
-
