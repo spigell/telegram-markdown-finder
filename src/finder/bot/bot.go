@@ -9,7 +9,7 @@ import (
 //	"fmt"
 	"flag"
 
-	"parcer/parcer"
+	"finder/parcer"
 )
 
 
@@ -69,12 +69,12 @@ func main() {
 			firstArg := strings.Join(args[1:], " ")
 
 			targetFile := configuration.PastePath[command]
-			markdown, _ := md.ParseMarkdownFile(targetFile)
+			markdown, _ := parcer.ParseMarkdownFile(targetFile)
 
 			switch firstArg {
 			case "list":
 
-				anchors := md.GetAllAnchors(markdown)
+				anchors := parcer.GetAllAnchors(markdown)
 				anchors_str := strings.Join(anchors, " ")
 				
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, anchors_str)
@@ -85,7 +85,7 @@ func main() {
 			default: 
 				paste := firstArg
 
-				content := md.GetBlockByAnchors(markdown, paste)
+				content := parcer.GetBlockByAnchors(markdown, paste)
 				content_str := strings.Join(content, " ")
 
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, content_str)

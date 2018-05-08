@@ -1,0 +1,8 @@
+version: '3'
+services:
+  tg:
+    build: .
+    image: tg-markdown-finder 
+    container_name: bot_test
+    volumes:
+      - ./tg-markdown-finder.json:/etc/tg-markdown-finder.json

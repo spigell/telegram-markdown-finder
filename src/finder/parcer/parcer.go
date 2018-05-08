@@ -39,7 +39,7 @@ func GetBlockByAnchors(markdown string, anchor string) []string {
 	}
 
 
-	
+	if len(block) == 0 {
 		log.Print("EMPTY")
 		block = append(block, "Nothing found, sorry")
 	}
