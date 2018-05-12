@@ -9,7 +9,7 @@ import (
 )
 
 
-func GetBlockByAnchor(markdown string, anchor string) []string {
+func GetBlockByAnchor(markdown string, anchor string) string {
 	
 	block := make([]string, 0)
 	headFound := false
@@ -42,11 +42,12 @@ func GetBlockByAnchor(markdown string, anchor string) []string {
 		log.Print("EMPTY")
 		block = append(block, "Nothing found, sorry")
 	}
-	return block
+	text := convertToString(block)
+	return text
 }
 
 
-func GetAllAnchors(markdown string) []string {
+func GetAllAnchors(markdown string) string {
 	// Holds all the anchors in slice
 	
 	pastesList := make([]string, 0)
@@ -64,7 +65,8 @@ func GetAllAnchors(markdown string) []string {
 		log.Print("[ERROR] EMPTY LIST")
 		pastesList = append(pastesList, "Empty list, sir. Are you sure the paste file exists?")
 	}
-	return pastesList
+	pastes := convertToString(pastesList)
+	return pastes
 }
 
 func AbsorbMarkdownFile(fileName string) (string, error) {
@@ -91,4 +93,7 @@ func targetAnchorFound(line string, anchor string) bool {
 
 func startsWithHash(line string) bool {
 	return strings.HasPrefix(line, "#")
+}
+func convertToString(list []string) string {
+	return strings.Join(list, " ")
 }

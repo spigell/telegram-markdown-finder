@@ -34,8 +34,8 @@ func main() {
 		log.Panic(err)
 	}
 
-	files, error1 := importer.CollectAllPastes(configuration.PastePath)
-	if error1 != nil {
+	files, err := importer.CollectAllPastes(configuration.PastePath)
+	if err != nil {
 		log.Panic(err)
 	}
 
@@ -61,7 +61,7 @@ func main() {
 		command := update.Message.Command()
 
 		if command == "" {
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi! What do you want? Try /help")
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi! What do you want?")
 			msg.ReplyToMessageID = update.Message.MessageID
 
 			bot.Send(msg)
@@ -84,9 +84,8 @@ func main() {
 			case "list":
 
 				anchors := parcer.GetAllAnchors(markdown)
-				anchors_str := strings.Join(anchors, " ")
 				
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, anchors_str)
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, anchors)
 				msg.ReplyToMessageID = update.Message.MessageID
 
 				bot.Send(msg)
@@ -95,9 +94,8 @@ func main() {
 				paste := firstArg
 
 				content := parcer.GetBlockByAnchor(markdown, paste)
-				content_str := strings.Join(content, " ")
 
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, content_str)
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, content)
 				msg.ReplyToMessageID = update.Message.MessageID
 				msg.ParseMode = "Markdown"
 

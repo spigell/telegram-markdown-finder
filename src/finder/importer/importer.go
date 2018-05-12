@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var Storage = "/tmp/"
+const Storage = "/tmp/"
 
 func CollectAllPastes(pastes map[string]string) (map[string]string, error) {
 
