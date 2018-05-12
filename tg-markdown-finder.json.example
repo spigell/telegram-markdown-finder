@@ -1,0 +1,6 @@
+{
+ "TelegramBotToken": "MyBotToken",
+ "PastePath": { 
+    "pastes":  "/path/to/file OR URL"
+ }
+}
