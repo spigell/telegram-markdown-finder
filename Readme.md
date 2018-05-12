@@ -15,6 +15,7 @@ Simple Telegram bot for learning purposes. Return part of markdown file by given
  }
  ```
 
-Refs
+# Refs
 https://godoc.org/github.com/go-telegram-bot-api/telegram-bot-api
+
 https://ashirobokov.wordpress.com/2016/10/04/dnd-spells-telegram-bot-1/
