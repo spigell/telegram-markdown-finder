@@ -1,6 +1,0 @@
-version: '3'
-services:
-  markdown-finder:
-    image: tg-markdown-finder 
-    volumes:
-      - ./tg-markdown-finder.json:/etc/tg-markdown-finder.json

@@ -6,7 +6,8 @@ ENV GOPATH /go/tg-markdown-finder/
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o tg-markdown-finder ./src/finder/bot/bot.go
 
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates bash
 WORKDIR /root/
 COPY --from=builder /go/tg-markdown-finder/tg-markdown-finder .
-CMD ["/root/tg-markdown-finder", "-config", "/etc/tg-markdown-finder.json"]
+COPY docker/entrypoint.sh /tmp/entrypoint.sh
+ENTRYPOINT ["/tmp/entrypoint.sh"]
